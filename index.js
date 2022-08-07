@@ -8,20 +8,19 @@ const obj = {
     e: ['hola'],
 }
 
-const newObject = {}
-
-function deepCopy(currentObject, newObject) {
-    for (key in currentObject) {
-        if (typeof currentObject[key] !== 'object') {
-            newObject[key] = currentObject[key]
-        } else {
-            newObject[key] = {}
-            deepCopy(currentObject[key], newObject[key])
-        }
+function deepCopy(obj) {
+    if (typeof obj !== 'object') {
+        return obj
     }
+    let copy = Array.isArray(obj) ? [] : {}
+    for (key in obj) {
+        const value = obj[key]
+        copy[key] = deepCopy(value)
+    }
+    return copy
 }
 
-deepCopy(obj, newObject)
+const newObject = deepCopy(obj)
 
 newObject.e[0] = 'Bye'
 
